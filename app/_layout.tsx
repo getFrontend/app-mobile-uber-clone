@@ -4,8 +4,10 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-
 import "../global.css";
+import { LogBox } from "react-native";
+
+import { tokenCache } from "@/lib/auth";
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
 
@@ -29,6 +31,8 @@ export default function RootLayout() {
     );
   }
 
+  LogBox.ignoreLogs(["Clerk:"]);
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
@@ -41,7 +45,7 @@ export default function RootLayout() {
 
   return (
     <>
-      <ClerkProvider publishableKey={publishableKey}>
+      <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
         <ClerkLoaded>
           <Stack>
             <Stack.Screen name="index" options={{ headerShown: false }} />
