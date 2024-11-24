@@ -1,9 +1,12 @@
-import { Redirect, RelativePathString } from "expo-router";
+import { useAuth } from "@clerk/clerk-expo";
+import { Redirect } from "expo-router";
 
-const path = "/(auth)/welcome" as RelativePathString;
+const Page = () => {
+  const { isSignedIn } = useAuth();
 
-const Home = () => {
-  return <Redirect href={path} />;
+  if (isSignedIn) return <Redirect href="/(root)/(tabs)/home" />;
+
+  return <Redirect href="/(auth)/welcome" />;
 };
 
-export default Home;
+export default Page;
